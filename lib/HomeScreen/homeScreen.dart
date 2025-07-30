@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:gymproject/functions/steps.dart';
 import 'package:gymproject/menu/profile.dart';
+import 'package:gymproject/menu/notification.dart';
+import 'package:gymproject/functions/dietData.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -169,6 +171,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: const Text('Upcoming Classes',
                           style: TextStyle(fontSize: 18)),
                     ),
+                    Container(
+
+                    )
                   ],
                 ),
               ),
@@ -214,6 +219,8 @@ class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
   @override
   Widget build(BuildContext context) {
+
+
     return FitPassProfileApp();
     // return Scaffold(
     //   appBar: AppBar(title: const Text('Profile')),
@@ -227,10 +234,7 @@ class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Notifications')),
-      body: const Center(child: Text('Notification Page')),
-    );
+    return notificationScreen();
   }
 }
 
