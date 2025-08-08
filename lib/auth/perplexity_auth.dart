@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gymproject/Screens/home.dart';
+import 'package:gymproject/api/workout_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-    url: 'https://szxoutelzflcujsirgwh.supabase.co',       // <<--- REPLACE ME
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6eG91dGVsemZsY3Vqc2lyZ3doIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2Nzc3OTAsImV4cCI6MjA2OTI1Mzc5MH0.5oU_9zRpmgw6PSQZ2bMLwkh1Dsr4iqSkzPPl23dBhTM',      // <<--- REPLACE ME
+    url: 'https://szxoutelzflcujsirgwh.supabase.co', // <<--- REPLACE ME
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6eG91dGVsemZsY3Vqc2lyZ3doIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2Nzc3OTAsImV4cCI6MjA2OTI1Mzc5MH0.5oU_9zRpmgw6PSQZ2bMLwkh1Dsr4iqSkzPPl23dBhTM', // <<--- REPLACE ME
   );
   runApp(const MyApp());
 }
@@ -33,8 +35,10 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
 
   // TODO: Replace with your actual Google OAuth client IDs.
-  static const String webClientId = '1059141546121-usjagn0oettdrtan1taq7mpsfqdmgnbo.apps.googleusercontent.com'; // <<--- REPLACE ME
-  static const String iosClientId = 'YOUR_GOOGLE_IOS_CLIENT_ID'; // <<--- REPLACE ME
+  static const String webClientId =
+      '1059141546121-usjagn0oettdrtan1taq7mpsfqdmgnbo.apps.googleusercontent.com'; // <<--- REPLACE ME
+  static const String iosClientId =
+      'YOUR_GOOGLE_IOS_CLIENT_ID'; // <<--- REPLACE ME
 
   Future<void> _googleSignIn() async {
     setState(() => _isLoading = true);
@@ -68,7 +72,8 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       // Sign in with Supabase using the Google ID token
-      final AuthResponse response = await Supabase.instance.client.auth.signInWithIdToken(
+      final AuthResponse response =
+          await Supabase.instance.client.auth.signInWithIdToken(
         provider: OAuthProvider.google,
         idToken: idToken,
         // accessToken can be omitted as it's often not available in google_sign_in v7+
@@ -78,12 +83,14 @@ class _LoginPageState extends State<LoginPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Login successful!')),
         );
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const GymHomeScreen()))
-;
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const GymHomeScreen()));
         // TODO: Navigate to home/profile screen after login
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: ${response.error?.message ?? 'Unknown error'}')),
+          SnackBar(
+              content: Text(
+                  'Login failed: ${response.error?.message ?? 'Unknown error'}')),
         );
       }
     } catch (e) {
@@ -99,16 +106,35 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Login")),
-      body: Center(
-        child: ElevatedButton.icon(
-          onPressed: _isLoading ? null : _googleSignIn,
-          icon: _isLoading
-              ? const SizedBox(
-            width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2),
+      body: Column(
+        children: [
+          SizedBox(),
+          Center(
+            child: ElevatedButton.icon(
+              onPressed: _isLoading ? null : _googleSignIn,
+              icon: _isLoading
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.login),
+              label: const Text('Sign in with Google'),
+            ),
+          ),
+          Row(
+            children: [
+              ElevatedButton(
+
+                onPressed:(){
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const WorkoutHomePage()),
+                  );
+                },
+                child: Text("Get Workout Plan"))],
           )
-              : const Icon(Icons.login),
-          label: const Text('Sign in with Google'),
-        ),
+        ],
       ),
     );
   }

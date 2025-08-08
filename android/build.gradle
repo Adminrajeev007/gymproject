@@ -24,7 +24,7 @@ buildscript {
         mavenCentral()    // ✅ Required
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.3.0'  // ✅ or your version
+        classpath 'com.android.tools.build:gradle:8.6.0'  // ✅ or your version
         classpath 'com.google.gms:google-services:4.4.0'  // ✅ Your plugin
     }
 }
@@ -35,4 +35,6 @@ allprojects {
         mavenCentral()
     }
 }
+
+ext.kotlin_version = '2.1.0'
 

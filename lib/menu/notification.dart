@@ -55,7 +55,7 @@ class notificationScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    '$_userName',
+                    '',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
